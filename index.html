@@ -109,7 +109,12 @@
               const name = prompt("Enter your name");
               if (!name) return;
 
-              const res = await fetch(`/${id}/${name}`, { method: "PUT" });
+              const res = await fetch(`/book/${id}`, {
+method: "PUT",
+  headers: {
+    "Authorization": "Bearer YOUR_TOKEN_HERE"
+  }
+});
               const data = await res.json();
 
               if (data.error) {
