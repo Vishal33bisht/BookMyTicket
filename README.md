@@ -1,2 +1,0 @@
-# BookMyTicket
-chaiCode hackathon project
