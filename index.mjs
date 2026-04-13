@@ -5,7 +5,6 @@
 //  );
 // INSERT INTO seats (isbooked)
 // SELECT 0 FROM generate_series(1, 20);
-const JWT_SECRET = "mysecretkey";
 import express from "express";
 import pg from "pg";
 import { dirname } from "path";
@@ -14,9 +13,10 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 const port = process.env.PORT || 8080;
-
+import dotenv from "dotenv";
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET;
 // Equivalent to mongoose connection
 // Pool is nothing but group of connections
 // If you pick one connection out of the pool and release it

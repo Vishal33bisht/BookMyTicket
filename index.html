@@ -110,10 +110,10 @@
               if (!name) return;
 
               const res = await fetch(`/book/${id}`, {
-method: "PUT",
-  headers: {
-    "Authorization": "Bearer YOUR_TOKEN_HERE"
-  }
+                method: "PUT",
+             headers: {
+               "Authorization": "Bearer YOUR_TOKEN_HERE"
+               }
 });
               const data = await res.json();
 
