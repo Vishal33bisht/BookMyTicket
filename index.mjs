@@ -110,15 +110,17 @@ app.get("/", (req, res) => {
 });
 //get all seats
 app.get("/seats", async (req, res) => {
-  const result = await pool.query("select * from seats"); // equivalent to Seats.find() in mongoose
+  const result = await pool.query("select * from seats"); 
   res.send(result.rows);
 });
 
-app.put("/book/:id",authMiddleware, async (req, res) => {
+app.put("/:id/:name",authMiddleware, async (req, res) => {
+  let conn;
   try {
     const id = req.params.id;
     const userId=req.user.userId;
-    const conn = await pool.connect(); // pick a connection from the pool
+    const conn = await pool.connect(); 
+    await conn.query("BEGIN");
     await conn.query("BEGIN");
 
     const userResult=await conn.query(
@@ -127,12 +129,12 @@ app.put("/book/:id",authMiddleware, async (req, res) => {
     );
     const name=userResult.rows[0].name;
     const result=await conn.query(
-      "SELECT * FROM seats WHERE ID=$1 AND isbooked=0 FOR UPDATE",
+      "SELECT * FROM seats WHERE id=$1 AND isbooked=0 FOR UPDATE",
       [id]
     );
     if(result.rowCount===0){
       await conn.query("ROLLBACK");
-      return res.send({error:"seat booked"});
+      return res.status(400).send({error:"seat booked"});
     }
     const alreadyBooked = await conn.query(
   "SELECT * FROM bookings WHERE user_id = $1 AND seat_id = $2",
