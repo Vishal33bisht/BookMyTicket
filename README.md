@@ -1,4 +1,4 @@
-# 🎟️ Book My Ticket (Backend Assignment)
+# 🎟️ Book My Ticket (Chai Code Hackathon)
 
 This project is an extension of the starter code provided in the Chai Aur SQL class.
 The goal was to implement authentication and a secure seat booking system.
