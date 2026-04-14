@@ -17,16 +17,17 @@ const port = process.env.PORT || 8080;
 import dotenv from "dotenv";
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
+console.log("JWT_SECRET:", JWT_SECRET);
 // Equivalent to mongoose connection
 // Pool is nothing but group of connections
 // If you pick one connection out of the pool and release it
 // the pooler will keep that connection open for sometime to other clients to reuse
 const pool = new pg.Pool({
-  host: "localhost",
-  port: 5432,
-  user: "postgres",
-  password: "12345",
-  database: "BookMyTicket",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   max: 20,
   connectionTimeoutMillis: 0,
   idleTimeoutMillis: 0,
@@ -43,7 +44,7 @@ app.post('/register',async(req,res)=>{
         return res.send({error:"email and password required"});
      }
      const existingUser=await pool.query(
-          "SELECT * FROM users WHERE email =$1",
+          "SELECT * FROM users WHERE email=$1",
           [email]
      );
      if(existingUser.rowCount>0){
@@ -120,8 +121,7 @@ app.put("/:id/:name",authMiddleware, async (req, res) => {
     const id = req.params.id;
     const userId=req.user.userId;
     const conn = await pool.connect(); 
-    await conn.query("BEGIN");
-    await conn.query("BEGIN");
+    await conn.query("BEGIN"); 
 
     const userResult=await conn.query(
       "SELECT name FROM users WHERE id=$1",
