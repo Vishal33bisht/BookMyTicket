@@ -15,3 +15,14 @@ CREATE TABLE bookings (
     seat_id INT REFERENCES seats(id),
     UNIQUE(user_id, seat_id)
 );
+CREATE TABLE refresh_tokens (
+  id SERIAL PRIMARY KEY,
+  user_id INT,
+  token TEXT
+);
+INSERT INTO seats (name) VALUES
+('A1'),
+('A2'),
+('A3'),
+('A4'),
+('A5');
